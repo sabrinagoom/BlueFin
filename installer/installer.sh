@@ -14,25 +14,28 @@ run_installer() {
 
     case "$distro" in
         ubuntu)
-            echo "Detected Ubuntu-based system"
-            INSTALLER_URL="https://raw.githubusercontent.com/sabrinagoom/BlueFin/refs/heads/main/ubuntu_installer.sh"
+            echo -e "\e[1;100m####     Detected Ubuntu-based system\e[0m"
+            INSTALLER_URL="https://raw.githubusercontent.com/sabrinagoom/BlueFin/refs/heads/main/installer/ubuntu.sh"
             ;;
         debian)
-            echo "Detected Debian-based system"
-            INSTALLER_URL="https://raw.githubusercontent.com/sabrinagoom/BlueFin/refs/heads/main/debian_installer.sh"
+            echo -e "\e[1;100m####     Detected Debian-based system\e[0m"
+            INSTALLER_URL="https://raw.githubusercontent.com/sabrinagoom/BlueFin/refs/heads/main/installer/debian.sh"
             ;;    
         rocky|rhel|almalinux|centos)
-            echo "Detected RHEL-based system"
-            INSTALLER_URL="https://raw.githubusercontent.com/sabrinagoom/BlueFin/refs/heads/main/rhel_installer.sh"
+            $distro="rhel"
+            echo -e "\e[1;100m####     Detected RHEL-based system\e[0m"
+            INSTALLER_URL="https://raw.githubusercontent.com/sabrinagoom/BlueFin/refs/heads/main/installer/rhel.sh"
             ;;
         *)
-            echo "This Linux distribution ('$distro') is unsupported by both BlueFin and Pterodactyl Wings"
+            echo -e "\e[1;100m####     This Linux distribution ('$distro') is unsupported by both BlueFin and Pterodactyl Wings\e[0m"
             exit 1
             ;;
     esac
 
-    echo "Downloading and executing BlueFin installer"
-    curl -sSL "$INSTALLER_URL" | bash
+    echo -e "\e[1;100m####     Downloading and executing BlueFin installer\e[0m"
+    wget "$INSTALLER_URL"
+    chmod +x $distro.sh
+    sudo ./$distro.sh
 }
 
 distro=$(detect_distro)
